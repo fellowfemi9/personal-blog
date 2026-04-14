@@ -257,9 +257,6 @@ export default function HeyPregnantMama() {
     <div className="min-h-screen bg-gradient-to-br from-rose-50 via-pink-50 to-fuchsia-50">
       {/* Hero */}
       <div className="relative overflow-hidden bg-gradient-to-r from-rose-400 via-pink-400 to-fuchsia-400 text-white px-4 py-14 text-center">
-        <p className="text-pink-100 text-sm font-semibold tracking-widest uppercase mb-3">
-          Happy Women&apos;s Day 💜
-        </p>
         <h1 className="text-4xl md:text-5xl font-extrabold mb-3 drop-shadow">
           Hey Pregnant Mama 👋
         </h1>
@@ -367,7 +364,6 @@ export default function HeyPregnantMama() {
         {/* Footer */}
         <div className="text-center py-8">
           <p className="text-4xl mb-3">🌷</p>
-          <p className="text-pink-500 font-semibold text-lg">Happy Women&apos;s Day, Mama!</p>
           <p className="text-gray-400 text-sm mt-1">You are stronger than you know. 💕</p>
           <Link href="/" className="mt-6 inline-block text-sm text-rose-400 hover:text-rose-600 transition-colors">
             ← Back to all posts
