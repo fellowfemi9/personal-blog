@@ -459,6 +459,12 @@ export default function SattvikPage() {
     <div className="min-h-screen bg-gradient-to-br from-green-50 via-emerald-50 to-teal-50">
       {/* Hero */}
       <div className="relative overflow-hidden bg-gradient-to-r from-emerald-600 via-teal-500 to-green-500 text-white px-4 py-14 text-center">
+        <Link
+          href="/"
+          className="absolute top-4 left-4 flex items-center gap-1.5 bg-white/20 hover:bg-white/30 transition-colors text-white text-sm font-semibold px-3 py-2 rounded-xl"
+        >
+          <span>🏠</span> Home
+        </Link>
         <p className="text-emerald-100 text-sm font-semibold tracking-widest uppercase mb-3">
           Femi9 Power
         </p>
