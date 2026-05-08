@@ -1,7 +1,9 @@
 "use client";
 
 import Link from "next/link";
-import { useState, useEffect } from "react";
+import { useState, useEffect, Suspense } from "react";
+import { useSearchParams } from "next/navigation";
+import PageHeader from "@/app/components/PageHeader";
 
 const SECTIONS = [
   {
@@ -419,6 +421,15 @@ const NUTRIENT_COLORS: Record<string, { bg: string; border: string; heading: str
 
 const STORAGE_KEY = "sattvik-way-checks";
 
+function TabSync({ onTab }: { onTab: (t: "nutrients" | "tips") => void }) {
+  const params = useSearchParams();
+  useEffect(() => {
+    const t = params.get("tab");
+    if (t === "nutrients" || t === "tips") onTab(t);
+  }, [params, onTab]);
+  return null;
+}
+
 export default function SattvikPage() {
   const [checked, setChecked] = useState<Record<string, boolean>>({});
   const [loaded, setLoaded] = useState(false);
@@ -456,24 +467,25 @@ export default function SattvikPage() {
   if (!loaded) return null;
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-green-50 via-emerald-50 to-teal-50">
+    <div className="min-h-screen overflow-x-hidden bg-gradient-to-br from-green-50 via-emerald-50 to-teal-50">
+      <PageHeader title="Sattvik Way of Eating" accent="text-emerald-400" />
+      <Suspense fallback={null}>
+        <TabSync onTab={setActiveTab} />
+      </Suspense>
       {/* Hero */}
       <div className="relative overflow-hidden bg-gradient-to-r from-emerald-600 via-teal-500 to-green-500 text-white px-4 py-14 text-center">
-        <Link
-          href="/"
-          className="absolute top-4 left-4 flex items-center gap-1.5 bg-white/20 hover:bg-white/30 transition-colors text-white text-sm font-semibold px-3 py-2 rounded-xl"
-        >
-          <span>🏠</span> Home
-        </Link>
         <p className="text-emerald-100 text-sm font-semibold tracking-widest uppercase mb-3">
           Femi9 Power
         </p>
         <h1 className="text-4xl md:text-5xl font-extrabold mb-3 drop-shadow">
           The Sattvik Way of Eating 🌿
         </h1>
-        <p className="max-w-xl mx-auto text-emerald-100 text-base leading-relaxed mb-4">
+        <p className="max-w-xl mx-auto text-emerald-100 text-base leading-relaxed mb-2">
           Ancient wisdom from the Sattvik kitchen — pure, wholesome practices for a healthier, more vibrant life.
         </p>
+        <div className="max-w-xl mx-auto mt-2 mb-4 bg-white/15 border border-white/30 rounded-xl px-4 py-3 text-sm text-white/90 leading-relaxed">
+          ⚠️ <strong>This guide is intended for normal, healthy adults only.</strong> It is not specific to pregnancy or postpartum recovery. If you are pregnant, breastfeeding, or in the postpartum period, please consult a qualified healthcare professional before making any dietary changes.
+        </div>
 
         {/* Overall progress */}
         <div className="mt-6 max-w-sm mx-auto bg-white/20 rounded-2xl p-4">
@@ -491,7 +503,7 @@ export default function SattvikPage() {
         </div>
       </div>
 
-      <div className="max-w-7xl mx-auto px-6 py-10">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 py-8 sm:py-10">
         <Link href="/" className="text-sm text-emerald-600 hover:text-emerald-800 transition-colors mb-6 inline-block">
           ← Back to all posts
         </Link>
@@ -520,7 +532,7 @@ export default function SattvikPage() {
               {NUTRIENT_TABLE.map((n) => {
                 const c = NUTRIENT_COLORS[n.color];
                 return (
-                  <div key={n.nutrient} className={`rounded-2xl border ${c.border} ${c.bg} p-5 flex flex-col`}>
+                  <div key={n.nutrient} className={`rounded-2xl border ${c.border} ${c.bg} p-4 sm:p-5 flex flex-col`}>
                     <div className="flex items-center gap-3 mb-3">
                       <span className="text-3xl">{n.emoji}</span>
                       <div>
@@ -528,7 +540,7 @@ export default function SattvikPage() {
                         <p className="text-xs text-gray-500 leading-relaxed">{n.benefit}</p>
                       </div>
                     </div>
-                    <div className="mt-auto grid grid-cols-4 gap-2">
+                    <div className="mt-auto grid grid-cols-2 sm:grid-cols-4 gap-2">
                       {n.foods.map((food) => (
                         <div key={food.name} className="flex flex-col items-center bg-white/70 rounded-xl py-3 px-1 text-center border border-white shadow-sm">
                           <span className="text-3xl mb-1">{food.pic}</span>
@@ -542,9 +554,14 @@ export default function SattvikPage() {
             </div>
 
             {/* Disclaimer under nutrient tab */}
-            <div className="rounded-2xl border border-amber-200 bg-amber-50 px-6 py-5 mt-6 text-sm text-amber-800 leading-relaxed">
+            <div className="rounded-2xl border border-amber-200 bg-amber-50 px-4 sm:px-6 py-4 sm:py-5 mt-6 text-sm text-amber-800 leading-relaxed">
               <p className="font-semibold mb-1">Disclaimer</p>
-              This guide is based on personal experience and the Sattvik kitchen tradition for general informational purposes only. Always consult your healthcare provider before making significant dietary changes.
+              This guide is based on personal experience and the Sattvik kitchen tradition for general informational purposes only. This blog should not be treated as a source of truth — health varies for every individual. Always consult a healthcare professional for any concerns or before making significant dietary changes.
+              <p className="font-semibold mt-3 mb-1">References</p>
+              <ol className="list-decimal list-inside space-y-1">
+                <li><a href="https://www.amazon.com/Sattvik-Kitchen-Science-Healthy-Living/dp/9357029931" target="_blank" rel="noopener noreferrer" className="underline hover:opacity-75"><span className="italic">The Sattvik Kitchen</span> by Dr Hansaji Yogendra</a></li>
+                <li><a href="https://www.healthline.com" target="_blank" rel="noopener noreferrer" className="underline hover:opacity-75">Healthline.com</a></li>
+              </ol>
             </div>
             <div className="text-center py-8">
               <p className="text-gray-300 text-xs">&copy; {new Date().getFullYear()} Janane Suresh. All rights reserved.</p>
@@ -621,7 +638,12 @@ export default function SattvikPage() {
         {/* Disclaimer */}
         <div className="rounded-2xl border border-amber-200 bg-amber-50 px-6 py-5 mb-6 text-sm text-amber-800 leading-relaxed">
           <p className="font-semibold mb-1">Disclaimer</p>
-          The information on this page is based on personal experience and the Sattvik kitchen tradition. It is intended for general informational purposes only and does not constitute medical or nutritional advice. Always consult your healthcare provider before making significant changes to your diet.
+          The information on this page is based on personal experience and the Sattvik kitchen tradition. It is intended for general informational purposes only and does not constitute medical or nutritional advice. This blog should not be treated as a source of truth — health varies for every individual. Please consult a healthcare professional for any concerns or before making significant changes to your diet.
+          <p className="font-semibold mt-3 mb-1">References</p>
+          <ol className="list-decimal list-inside space-y-1">
+            <li><a href="https://www.amazon.com/Sattvik-Kitchen-Science-Healthy-Living/dp/9357029931" target="_blank" rel="noopener noreferrer" className="underline hover:opacity-75"><span className="italic">The Sattvik Kitchen</span> by Dr Hansaji Yogendra</a></li>
+            <li><a href="https://www.healthline.com" target="_blank" rel="noopener noreferrer" className="underline hover:opacity-75">Healthline.com</a></li>
+          </ol>
         </div>
 
         {/* Footer */}
